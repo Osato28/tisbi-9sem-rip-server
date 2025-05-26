@@ -10,6 +10,12 @@ class Bonus extends Model
     //
     use HasFactory;
 
+    protected $fillable = [
+        'date',
+        'sum',
+        'employee_id'
+    ];
+
     public function employee() {
         return $this->belongsTo(Employee::class);
     }

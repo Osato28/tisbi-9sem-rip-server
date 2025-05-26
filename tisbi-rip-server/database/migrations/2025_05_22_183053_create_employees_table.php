@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('job_title_id');
             $table->timestamps();
             $table->string('name', 255);
-            $table->float('salary', 2);
+            $table->decimal('salary');
         });
     }
 

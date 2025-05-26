@@ -10,6 +10,12 @@ class Employee extends Model
     //
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'salary',
+        'job_title_id'
+    ];
+
     public function jobTitle() {
         return $this->belongsTo(JobTitle::class);
     }

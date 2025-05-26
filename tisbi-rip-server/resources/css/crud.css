@@ -1,0 +1,69 @@
+.form {
+    padding: 6px;
+}
+
+.form h1 {
+    font-size: 1.618em;
+    font-weight: 600;
+    margin-top: 6px;
+}
+.form h2 {
+    font-size: 1.272em;
+    font-weight: 600;
+    margin-top: 6px;
+}
+.form label, .form .label {
+    font-weight: 500;
+}
+
+.form input, .form select {
+    border: 0.1px solid black;
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin-top: 6px;
+    margin-left: 6px;
+    max-width: 30ch;
+    width: 100%;
+}
+
+.form td, .form th {
+    padding: 6px 10px;
+}
+
+.form button {
+    border: 0.1px solid black;
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin-left: 6px;
+    margin-top: 6px;
+    max-width: 30ch;
+}
+
+.form .error {
+    font-size: 0.8em;
+    color: red;
+}
+
+button.save {
+    background-color: green;
+    color: white;
+    font-weight: 500;
+}
+
+button.delete {
+    background-color: darkred;
+    color: white;
+    font-weight: 500;
+}
+
+button.edit {
+    background-color: darkcyan;
+    color: white;
+    font-weight: 500;
+}
+
+button.create {
+    background-color: green;
+    color: white;
+    font-weight: 500;
+}
