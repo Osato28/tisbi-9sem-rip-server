@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\BonusController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\JobTitleController;
 use App\Livewire\Bonus;
 use App\Livewire\Counter;
 use App\Livewire\Employee;
@@ -29,5 +32,9 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
+
+// Route::resource('employees', EmployeeController::class);
+// Route::resource('job_titles', JobTitleController::class);
+// Route::resource('bonuses', BonusController::class);
 
 require __DIR__.'/auth.php';
