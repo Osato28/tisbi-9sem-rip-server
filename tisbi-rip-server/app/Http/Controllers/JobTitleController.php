@@ -21,7 +21,6 @@ class JobTitleController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -29,7 +28,28 @@ class JobTitleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $isJson = $request->isJson();
+        if (!$isJson) {
+            return response('Запрос должен быть в формате JSON', 400);
+        }
+
+        $name = $request->input('name');
+        if (!$name || $name == "") {
+            return response('В запросе отсутствует параметр "name"', 400);
+        }
+
+        if (JobTitle::where('name', $name)->count() != 0) {
+            return response('Сущность с таким параметром "name" уже существует', 409);
+        }
+
+        try {
+            $entity = new JobTitle();
+            $entity->name = $name;
+            $entity->save();
+            return response()->json($entity->toArray());
+        } catch (\Throwable $e) {
+            return response('Неизвестная ошибка при записи сущности', 504);
+        }
     }
 
     /**
@@ -42,19 +62,30 @@ class JobTitleController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
     {
         //
+        $isJson = $request->isJson();
+        if (!$isJson) {
+            return response('Запрос должен быть в формате JSON', 400);
+        }
+
+        $name = $request->input('name');
+        if (!$name || $name == "") {
+            return response('В запросе отсутствует параметр "name"', 400);
+        }
+
+        try {
+            $entity = JobTitle::find($id);
+            if ($entity->name != $name) {
+                $entity->name = $name;
+                $entity->save();
+            }
+        } catch (\Throwable $e) {
+            return response('Неизвестная ошибка при записи сущности', 504);
+        }
     }
 
     /**
@@ -62,6 +93,11 @@ class JobTitleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            JobTitle::destroy($id);
+            return response("Должность с номером {$id} удалена");
+        } catch (\Throwable $e) {
+            return response('Неизвестная ошибка при записи сущности', 504);
+        }
     }
 }

@@ -10,6 +10,9 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::resource('employees', EmployeeController::class);
-Route::resource('job_titles', JobTitleController::class);
-Route::resource('bonuses', BonusController::class);
+Route::apiResources([
+    'employees' => EmployeeController::class,
+    'job_titles' => JobTitleController::class,
+    'bonuses' => BonusController::class
+    ]
+);
