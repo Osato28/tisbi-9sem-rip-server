@@ -29,7 +29,39 @@ class BonusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $isJson = $request->isJson();
+        if (!$isJson) {
+            return response('Запрос должен быть в формате JSON', 400);
+        }
+
+        $sum = $request->input('sum');
+        if (!$sum || floatval($sum) == 0) {
+            return response('В запросе некорректно выставлен параметр "sum": размер премии нулевой или не является числом', 400);
+        }
+
+        $date = $request->input('date');
+        if (!$date || $date == "") {
+            return response('В запросе отсутствует параметр "date"', 400);
+        }
+        if (\DateTime::createFromFormat('Y-m-d', $date) == false) {
+            return response('Параметр "date" должен соответствовать формату yyyy-MM-dd', 400);
+        }
+
+        $employeeId = $request->input('employee_id');
+        if (!$employeeId || $employeeId == 0) {
+            return response('В запросе некорректно выставлен параметр "employee_id": ID нулевой или не задан', 400);
+        }
+        
+        try {
+            $entity = new Bonus();
+            $entity->sum = $sum;
+            $entity->date = $date;
+            $entity->employee_id = $employeeId;
+            $entity->save();
+            return response()->json($entity->toArray());
+        } catch (\Throwable $e) {
+            return response('Неизвестная ошибка при записи сущности', 504);
+        }
     }
 
     /**
@@ -41,19 +73,42 @@ class BonusController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
     {
-        //
+        $isJson = $request->isJson();
+        if (!$isJson) {
+            return response('Запрос должен быть в формате JSON', 400);
+        }
+
+        $sum = $request->input('sum');
+        if (!$sum || floatval($sum) == 0) {
+            return response('В запросе некорректно выставлен параметр "sum": размер премии нулевой или не является числом', 400);
+        }
+
+        $date = $request->input('date');
+        if (!$date || $date == "") {
+            return response('В запросе отсутствует параметр "date"', 400);
+        }
+        if (\DateTime::createFromFormat('Y-m-d', $date) == false) {
+            return response('Параметр "date" должен соответствовать формату yyyy-MM-dd', 400);
+        }
+
+        $employeeId = $request->input('employee_id');
+        if (!$employeeId || $employeeId == 0) {
+            return response('В запросе некорректно выставлен параметр "employee_id": ID нулевой или не задан', 400);
+        }
+
+        try {
+            $entity = Bonus::find($id);
+            $entity->sum = $sum;
+            $entity->date = $date;
+            $entity->employee_id = $employeeId;
+            $entity->save();
+        } catch (\Throwable $e) {
+            return response('Неизвестная ошибка при записи сущности', 504);
+        }
     }
 
     /**
@@ -61,6 +116,11 @@ class BonusController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            Bonus::destroy($id);
+            return response("Должность с номером {$id} удалена");
+        } catch (\Throwable $e) {
+            return response('Неизвестная ошибка при записи сущности', 504);
+        }
     }
 }
