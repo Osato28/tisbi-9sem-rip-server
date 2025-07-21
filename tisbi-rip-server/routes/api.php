@@ -13,13 +13,19 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/user/login_by_token', [AuthenticationController::class, 'loginByToken']);
-Route::post('/user/login_by_pass', [AuthenticationController::class, 'loginByPass']);
+Route::controller(AuthenticationController::class)->group(function () {
+    Route::post('/user/login_by_token', 'loginByToken');
+    Route::post('/user/login_by_pass', 'loginByPass');
+});
 
-Route::apiResources(
-    [
-        'employees' => EmployeeController::class,
-        'job_titles' => JobTitleController::class,
-        'bonuses' => BonusController::class
-    ]
+Route::middleware('auth:sanctum')->group(
+    function () {
+        Route::apiResources(
+            [
+                'employees' => EmployeeController::class,
+                'job_titles' => JobTitleController::class,
+                'bonuses' => BonusController::class
+            ]
+        );
+    }
 );
