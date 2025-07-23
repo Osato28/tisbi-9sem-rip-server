@@ -11,13 +11,10 @@ use App\Livewire\JobTitle;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-Route::get('/', function () {
-    return redirect()->to('/employees');
-})->name('home');
 
-// Route::view('employees', 'employees')
-//     ->middleware(['auth', 'verified'])
-//     ->name('employees');
+Route::view('employees', 'employees')
+    ->middleware(['auth', 'verified'])
+    ->name('employees');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
@@ -32,9 +29,5 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
-
-// Route::resource('employees', EmployeeController::class);
-// Route::resource('job_titles', JobTitleController::class);
-// Route::resource('bonuses', BonusController::class);
 
 require __DIR__.'/auth.php';

@@ -50,7 +50,7 @@ class EmployeeController extends Controller
         }
 
         if (Employee::where('name', $name)->count() != 0) {
-            return response('Сущность с таким параметром "name" уже существует', 409);
+            return response('Сущность с таким параметром "name" уже существует', 400);
         }
 
         try {
@@ -71,7 +71,8 @@ class EmployeeController extends Controller
     public function show($id)
     {
         //
-        return response()->json(Employee::find($id)->toArray());
+        $employee = Employee::find($id)->toArray();
+        return response()->json($employee);
     }
     /**
      * Update the specified resource in storage.

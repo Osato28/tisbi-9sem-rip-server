@@ -17,13 +17,6 @@ class JobTitleController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -39,7 +32,7 @@ class JobTitleController extends Controller
         }
 
         if (JobTitle::where('name', $name)->count() != 0) {
-            return response('Сущность с таким параметром "name" уже существует', 409);
+            return response('Сущность с таким параметром "name" уже существует', 400);
         }
 
         try {
