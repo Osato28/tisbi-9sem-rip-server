@@ -27,8 +27,18 @@ class JobTitleController extends Controller
         }
 
         $name = $request->input('name');
-        if (!$name || $name == "") {
-            return response('В запросе отсутствует параметр "name"', 400);
+        if (!$name || !is_string($name) || $name == "") {
+            return response('В запросе отсутствует или не является строкой параметр "name"', 400);
+        }
+        
+        $tax = $request->input('tax');
+        if (!$tax || !doubleval($tax) || $tax == 0) {
+            return response('В запросе отсутствует или не является числом с плавающей точкой параметр "tax"', 400);
+        }
+
+        $insurancePayout = $request->input('insurance_payout');
+        if (!$insurancePayout || !doubleval($insurancePayout) || $insurancePayout == 0) {
+            return response('В запросе отсутствует или не является числом с плавающей точкой параметр "insurance_payout"', 400);
         }
 
         if (JobTitle::where('name', $name)->count() != 0) {
@@ -38,6 +48,8 @@ class JobTitleController extends Controller
         try {
             $entity = new JobTitle();
             $entity->name = $name;
+            $entity->tax = $tax;
+            $entity->insurance_payout = $insurancePayout;
             $entity->save();
             return response()->json($entity->toArray());
         } catch (\Throwable $e) {
@@ -69,13 +81,23 @@ class JobTitleController extends Controller
         if (!$name || $name == "") {
             return response('В запросе отсутствует параметр "name"', 400);
         }
+        
+        $tax = $request->input('tax');
+        if (!$tax || !doubleval($tax) || $tax == 0) {
+            return response('В запросе отсутствует или не является числом с плавающей точкой параметр "tax"', 400);
+        }
+
+        $insurancePayout = $request->input('insurance_payout');
+        if (!$insurancePayout || !doubleval($insurancePayout) || $insurancePayout == 0) {
+            return response('В запросе отсутствует или не является числом с плавающей точкой параметр "insurance_payout"', 400);
+        }
 
         try {
             $entity = JobTitle::find($id);
-            if ($entity->name != $name) {
-                $entity->name = $name;
-                $entity->save();
-            }
+            $entity->name = $name;
+            $entity->tax = $tax;
+            $entity->insurance_payout = $insurancePayout;
+            $entity->save();
         } catch (\Throwable $e) {
             return response('Неизвестная ошибка при записи сущности', 504);
         }
