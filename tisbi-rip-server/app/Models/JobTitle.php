@@ -11,7 +11,8 @@ class JobTitle extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
+        'insurance_payout'
     ];
 
     public function employees() {

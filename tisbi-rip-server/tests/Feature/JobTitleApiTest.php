@@ -40,16 +40,18 @@ test('can_create_job_title', function () {
     $token = TestHelpers::getToken($user);
 
     $name = 'TestJobTitle';
+    $insurancePayout = 0.42;
 
     $response = $this->withHeaders([
         'Accept' => 'application/json'
     ])
         ->withToken($token)
-        ->postJson("/api/job_titles/", ['name' => $name]);
+        ->postJson("/api/job_titles/", ['name' => $name, 'insurance_payout' => $insurancePayout]);
 
     $response->assertStatus(200);
     $response->assertJson([
-        'name' => $name
+        'name' => $name,
+        'insurance_payout' => $insurancePayout
     ]);
 
     expect(JobTitle::where('name', $name)->count())->toBe(1);
@@ -63,7 +65,7 @@ test('cannot_duplicate_job_title', function () {
         'Accept' => 'application/json'
     ])
     ->withToken($token)
-    ->postJson("/api/job_titles/", ['name' => $jobTitle->name]);
+    ->postJson("/api/job_titles/", ['name' => $jobTitle->name, 'insurance_payout' => $jobTitle->insurance_payout]);
 
     $response->assertStatus(400);
 
@@ -78,11 +80,11 @@ test('can_update_job_title', function() {
         'Accept' => 'application/json'
     ])
     ->withToken($token)
-    ->patchJson("/api/job_titles/{$jobTitle->id}", ['name' => 'abcde']);
+    ->patchJson("/api/job_titles/{$jobTitle->id}", ['name' => $jobTitle->name, 'insurance_payout' => 0.35]);
 
     $response->assertStatus(200);
-    expect(JobTitle::where('name', 'abcde')->count())->toBe(1);
-    expect(JobTitle::where('name', $jobTitle->name)->count())->toBe(0);
+    expect(JobTitle::where('insurance_payout', 0.35)->count())->toBe(1);
+    expect(JobTitle::where('insurance_payout', 0.30)->count())->toBe(0);
 });
 test('can_delete_job_title', function() {
     $user = TestHelpers::makeUser();

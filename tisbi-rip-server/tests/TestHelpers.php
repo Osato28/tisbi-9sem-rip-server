@@ -21,6 +21,7 @@ class TestHelpers
     {
         JobTitle::create([
             'name' => 'TestJobTitle',
+            'insurance_payout' => 0.30,
         ]);
         $jobTitle = JobTitle::where('name', 'TestJobTitle')->first();
         $forEmployee->job_title_id = $jobTitle->id;

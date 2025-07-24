@@ -30,11 +30,6 @@ class JobTitleController extends Controller
         if (!$name || !is_string($name) || $name == "") {
             return response('В запросе отсутствует или не является строкой параметр "name"', 400);
         }
-        
-        $tax = $request->input('tax');
-        if (!$tax || !doubleval($tax) || $tax == 0) {
-            return response('В запросе отсутствует или не является числом с плавающей точкой параметр "tax"', 400);
-        }
 
         $insurancePayout = $request->input('insurance_payout');
         if (!$insurancePayout || !doubleval($insurancePayout) || $insurancePayout == 0) {
@@ -48,7 +43,6 @@ class JobTitleController extends Controller
         try {
             $entity = new JobTitle();
             $entity->name = $name;
-            $entity->tax = $tax;
             $entity->insurance_payout = $insurancePayout;
             $entity->save();
             return response()->json($entity->toArray());
@@ -78,13 +72,8 @@ class JobTitleController extends Controller
         }
 
         $name = $request->input('name');
-        if (!$name || $name == "") {
+        if (!$name || !is_string($name) || $name == "") {
             return response('В запросе отсутствует параметр "name"', 400);
-        }
-        
-        $tax = $request->input('tax');
-        if (!$tax || !doubleval($tax) || $tax == 0) {
-            return response('В запросе отсутствует или не является числом с плавающей точкой параметр "tax"', 400);
         }
 
         $insurancePayout = $request->input('insurance_payout');
@@ -95,7 +84,6 @@ class JobTitleController extends Controller
         try {
             $entity = JobTitle::find($id);
             $entity->name = $name;
-            $entity->tax = $tax;
             $entity->insurance_payout = $insurancePayout;
             $entity->save();
         } catch (\Throwable $e) {
