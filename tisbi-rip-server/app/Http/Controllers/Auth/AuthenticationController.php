@@ -43,6 +43,7 @@ class AuthenticationController extends Controller
 
         if ($authenticated) {
             $user = $request->user();
+            $user->tokens()->where('name', 'API')->delete();
             $token = $user->createToken('API')->plainTextToken;
             return response()->json(['success' => true, 'data' => [
                 'username' => $user->name,
