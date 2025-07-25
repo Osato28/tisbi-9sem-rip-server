@@ -81,8 +81,12 @@ class JobTitleController extends Controller
             return response('В запросе отсутствует или не является числом с плавающей точкой параметр "insurance_payout"', 400);
         }
 
+        $entity = JobTitle::find($id);
+        if ($entity == null) {
+            return response("Сущность с ID {$id} не найдена", 400);
+        }
+
         try {
-            $entity = JobTitle::find($id);
             $entity->name = $name;
             $entity->insurance_payout = $insurancePayout;
             $entity->save();
@@ -96,8 +100,13 @@ class JobTitleController extends Controller
      */
     public function destroy($id)
     {
+        $entity = JobTitle::find($id);
+        if ($entity == null) {
+            return response("Сущность с ID {$id} не найдена", 400);
+        }
+
         try {
-            JobTitle::destroy($id);
+            $entity->delete();
             return response("Должность с номером {$id} удалена");
         } catch (\Throwable $e) {
             return response('Неизвестная ошибка при записи сущности', 504);

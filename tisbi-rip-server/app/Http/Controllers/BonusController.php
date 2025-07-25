@@ -100,8 +100,12 @@ class BonusController extends Controller
             return response('В запросе некорректно выставлен параметр "employee_id": ID нулевой или не задан', 400);
         }
 
+        $entity = Bonus::find($id);
+        if ($entity == null) {
+            return response("Сущность с ID {$id} не найдена", 400);
+        }
+
         try {
-            $entity = Bonus::find($id);
             $entity->sum = $sum;
             $entity->date = $date;
             $entity->employee_id = $employeeId;
@@ -116,8 +120,13 @@ class BonusController extends Controller
      */
     public function destroy($id)
     {
+        $entity = Bonus::find($id);
+        if ($entity == null) {
+            return response("Сущность с ID {$id} не найдена", 400);
+        }
+
         try {
-            Bonus::destroy($id);
+            $entity->delete();
             return response("Должность с номером {$id} удалена");
         } catch (\Throwable $e) {
             return response('Неизвестная ошибка при записи сущности', 504);

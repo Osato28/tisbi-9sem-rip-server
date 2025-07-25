@@ -99,8 +99,12 @@ class EmployeeController extends Controller
             return response('В запросе некорректно выставлен параметр "job_title_id": ID нулевой или не задан', 400);
         }
 
+        $entity = Employee::find($id);
+        if ($entity == null) {
+            return response("Сущность с ID {$id} не найдена", 400);
+        }
+
         try {
-            $entity = Employee::find($id);
             $entity->name = $name;
             $entity->salary = $salary;
             $entity->job_title_id = $jobTitleId;
@@ -115,8 +119,13 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
+        $entity = Employee::find($id);
+        if ($entity == null) {
+            return response("Сущность с ID {$id} не найдена", 400);
+        }
+
         try {
-            Employee::destroy($id);
+            $entity->delete();
             return response("Сущность с номером {$id} удалена");
         } catch (\Throwable $e) {
             return response('Неизвестная ошибка при записи сущности', 504);
