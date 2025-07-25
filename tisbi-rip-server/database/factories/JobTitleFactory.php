@@ -17,7 +17,8 @@ class JobTitleFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->jobTitle()
+            'name' => fake()->jobTitle(),
+            'insurance_payout' => 0.30
         ];
     }
 }
