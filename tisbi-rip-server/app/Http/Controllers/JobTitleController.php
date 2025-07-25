@@ -57,7 +57,11 @@ class JobTitleController extends Controller
     public function show($id)
     {
         //
-        return response()->json(JobTitle::find($id)->toArray());
+        $entity = JobTitle::find($id);
+        if ($entity == null) {
+            return response("Сущности с ID {$id} в базе данных нет.", 400);
+        }
+        return response()->json($entity);
     }
 
     /**

@@ -13,15 +13,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
-        $result = Employee::get()->toArray();
-        // foreach ($result as &$employee) {
-        //     $employee['job_title'] = Employee::find($employee['job_title_id']);
-        //     $employee['bonuses'] = Bonus::where('employee_id',$employee['id'])->get()->toArray();
-
-        //     unset($employee);
-        // }
-        return response()->json($result);
+        return response()->json(Employee::get()->toArray());
     }
 
     /**
@@ -70,9 +62,11 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
-        $employee = Employee::find($id)->toArray();
-        return response()->json($employee);
+        $entity = Employee::find($id);
+        if ($entity == null) {
+            return response("Сущности с ID {$id} в базе данных нет.", 400);
+        }
+        return response()->json($entity);
     }
     /**
      * Update the specified resource in storage.

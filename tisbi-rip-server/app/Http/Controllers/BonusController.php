@@ -69,7 +69,11 @@ class BonusController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Bonus::find($id)->toArray());
+        $entity = Bonus::find($id);
+        if ($entity == null) {
+            return response("Сущности с ID {$id} в базе данных нет.", 400);
+        }
+        return response()->json($entity);
     }
 
     /**
