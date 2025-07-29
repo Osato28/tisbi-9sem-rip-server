@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('employee_id');
             $table->date('date');
-            $table->decimal('sum');
+            $table->decimal('sum', 12, 2);
         });
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bonus;
 use App\Models\Employee;
+use App\Models\JobTitle;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -37,8 +38,8 @@ class EmployeeController extends Controller
         }
 
         $jobTitleId = $request->input('job_title_id');
-        if (!$jobTitleId || $jobTitleId == 0) {
-            return response('В запросе некорректно выставлен параметр "job_title_id": ID нулевой или не задан', 400);
+        if (!$jobTitleId || JobTitle::find($jobTitleId) == null) {
+            return response('В запросе некорректно выставлен параметр "job_title_id": ID не соответствует должности или не задан', 400);
         }
 
         if (Employee::where('name', $name)->count() != 0) {
@@ -89,8 +90,8 @@ class EmployeeController extends Controller
         }
 
         $jobTitleId = $request->input('job_title_id');
-        if (!$jobTitleId || $jobTitleId == 0) {
-            return response('В запросе некорректно выставлен параметр "job_title_id": ID нулевой или не задан', 400);
+        if (!$jobTitleId || JobTitle::find($jobTitleId) == null) {
+            return response('В запросе некорректно выставлен параметр "job_title_id": ID не соответствует должности или не задан', 400);
         }
 
         $entity = Employee::find($id);

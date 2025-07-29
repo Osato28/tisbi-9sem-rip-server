@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->double('insurance_payout')->default(0.30);
+            $table->decimal('insurance_payout', 8, 4)->default(0.30);
         });
     }
 

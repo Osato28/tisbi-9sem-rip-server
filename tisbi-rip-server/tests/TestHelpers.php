@@ -46,7 +46,7 @@ class TestHelpers
         Employee::create([
             'name' => 'TestEmployee',
             'salary' => '123456.00',
-            'job_title_id' => 9999,
+            'job_title_id' => null,
         ]);
 
         return Employee::where('name', 'TestEmployee')->first();

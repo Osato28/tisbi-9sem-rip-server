@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
 
         JobTitle::factory()->has(
             Employee::factory()->count(1)->sequence(
-            ['salary' => 90000]
+            ['salary' => 170000]
         )->has(
             Bonus::factory()->count(3)
             )
@@ -62,7 +62,8 @@ class DatabaseSeeder extends Seeder
             ['salary' => 42000.00],
             ['salary' => 39000.00],
         )->has(Bonus::factory()->count(1)))->create([
-            'name' => 'Работник'
+            'name' => 'Работник',
+            'insurance_payout' => 0.34
         ]);
     }
 }
